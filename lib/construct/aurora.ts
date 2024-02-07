@@ -30,6 +30,25 @@ export class Aurora extends Construct {
         },
       }
     );
+    const dbClusterParameterGroup15 = new cdk.aws_rds.ParameterGroup(
+      this,
+      "DbClusterParameterGroup15",
+      {
+        engine: cdk.aws_rds.DatabaseClusterEngine.auroraPostgres({
+          version: cdk.aws_rds.AuroraPostgresEngineVersion.VER_15_5,
+        }),
+        description: "aurora-postgresql15",
+        parameters: {
+          "rds.logical_replication": "1",
+          log_statement: "none",
+          "pgaudit.log": "all",
+          "pgaudit.role": "rds_pgaudit",
+          shared_preload_libraries: "pgaudit",
+          ssl_ciphers: "TLS_RSA_WITH_AES_256_GCM_SHA384",
+        },
+      }
+    );
+    dbClusterParameterGroup15.bindToCluster({});
 
     // DB Parameter Group
     const dbParameterGroup14 = new cdk.aws_rds.ParameterGroup(
@@ -42,6 +61,17 @@ export class Aurora extends Construct {
         description: "aurora-postgresql14",
       }
     );
+    const dbParameterGroup15 = new cdk.aws_rds.ParameterGroup(
+      this,
+      "DbParameterGroup15",
+      {
+        engine: cdk.aws_rds.DatabaseClusterEngine.auroraPostgres({
+          version: cdk.aws_rds.AuroraPostgresEngineVersion.VER_15_5,
+        }),
+        description: "aurora-postgresql15",
+      }
+    );
+    dbParameterGroup15.bindToInstance({});
 
     // Subnet Group
     const subnetGroup = new cdk.aws_rds.SubnetGroup(this, "SubnetGroup", {
